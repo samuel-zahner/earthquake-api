@@ -1,0 +1,14 @@
+earthquake:
+  base-url: https://earthquake.usgs.gov/fdsnws/event/1/query
+
+spring:
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.yml
+    enabled: true
+  profiles:
+    active: local 
+logging:
+  level:
+    root: INFO
+    liquibase: INFO
+
