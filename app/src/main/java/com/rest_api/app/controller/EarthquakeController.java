@@ -1,4 +1,6 @@
 package com.rest_api.app.controller;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -7,6 +9,8 @@ import com.rest_api.app.service.EarthquakeService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.rest_api.app.entity.EarthquakeEvent;
 
 
 @RestController
@@ -21,7 +25,7 @@ public class EarthquakeController {
     }
 
     @GetMapping("earthquakes")
-    public String getMethodName(@RequestParam(value="starttime", required=false) String starttime,
+    public List<EarthquakeEvent> getMethodName(@RequestParam(value="starttime", required=false) String starttime,
                                 @RequestParam(value="endtime", required=false) String endtime,
                                 @RequestParam(value="minmagnitude", required=false) String minmagnitude,
                                 @RequestParam(value="latitude", required=false) String latitude,
