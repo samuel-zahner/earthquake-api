@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 001
+      id: 001_spring_batch_tables-01
       author: samuelzahner
       preConditions:
         onFail: MARK_RAN
@@ -15,7 +15,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: JOB_INSTANCE_ID
-                  type: BIGINT
+                  type: BIGSERIAL
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -37,7 +37,7 @@ databaseChangeLog:
             tableName: BATCH_JOB_INSTANCE
 
   - changeSet:
-      id: 002
+      id: 001_spring_batch_tables-02
       author: samuelzahner
       preConditions:
         onFail: MARK_RAN
@@ -52,7 +52,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: JOB_EXECUTION_ID
-                  type: BIGINT
+                  type: BIGSERIAL
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -98,7 +98,7 @@ databaseChangeLog:
             tableName: BATCH_JOB_EXECUTION
 
   - changeSet:
-      id: 003
+      id: 001_spring_batch_tables-03
       author: samuelzahner
       preConditions:
         onFail: MARK_RAN
@@ -145,7 +145,7 @@ databaseChangeLog:
             tableName: BATCH_JOB_EXECUTION_PARAMS
 
   - changeSet:
-      id: 004
+      id: 001_spring_batch_tables-04
       author: samuelzahner
       preConditions:
         onFail: MARK_RAN
@@ -160,7 +160,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: STEP_EXECUTION_ID
-                  type: BIGINT
+                  type: BIGSERIAL
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -237,7 +237,7 @@ databaseChangeLog:
             tableName: BATCH_STEP_EXECUTION
 
   - changeSet:
-      id: 005
+      id: 001_spring_batch_tables-05
       author: samuelzahner
       preConditions:
         onFail: MARK_RAN
@@ -275,7 +275,7 @@ databaseChangeLog:
             tableName: BATCH_JOB_EXECUTION_CONTEXT
 
   - changeSet:
-      id: 006
+      id: 001_spring_batch_tables-06
       author: samuelzahner
       preConditions:
         onFail: MARK_RAN

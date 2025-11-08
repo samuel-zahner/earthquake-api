@@ -19,22 +19,25 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.annotations.CurrentTimestamp;
 
 @Service
 @Slf4j
 public class EarthquakeService {
-
-    @Autowired
     private EarthquakeRestService earthquakeRestService;
 
-    @Autowired
     private EarthquakeRequestRepository earthquakeRequestRepository;
 
-    @Autowired
     private EarthquakeEventRepository earthquakeEventRepository;
 
     private final ObjectMapper mapper = new ObjectMapper();
+
+    public EarthquakeService(EarthquakeRestService earthquakeRestService,
+                             EarthquakeRequestRepository earthquakeRequestRepository,
+                             EarthquakeEventRepository earthquakeEventRepository) {
+        this.earthquakeRestService = earthquakeRestService;
+        this.earthquakeRequestRepository = earthquakeRequestRepository;
+        this.earthquakeEventRepository = earthquakeEventRepository;
+    }
 
     @Value("${earthquake.format}")
     private String responseFormat;
@@ -49,9 +52,9 @@ public class EarthquakeService {
         if (response == null || response.isEmpty()) {
             throw new IllegalArgumentException("Empty response from Earthquake API");
         }
-        else if (!request.getResponseStatus.equals("200")){
+        else if (!request.getResponseStatus().equals("200")){
             throw new IllegalArgumentException("Error response from Earthquake API: " + request.getResponseStatus());
-        }
+       }
         JsonNode jsonRoot = mapper.readTree(response);
 
         List<EarthquakeEvent> earthquakeEvents = new ArrayList<>();

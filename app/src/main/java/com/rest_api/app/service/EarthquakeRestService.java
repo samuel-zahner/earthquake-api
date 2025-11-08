@@ -8,13 +8,17 @@ import com.rest_api.app.entity.EarthquakeRequest;
 @Service
 public class EarthquakeRestService {
 
-    private final RestTemplate restTemplate = new RestTemplate();
-    
-    @Value("${earthquake.api.baseurl}")
-    private String BASE_URL;
+    private final RestTemplate restTemplate;
+    private String base_url;
+
+    public EarthquakeRestService(RestTemplate restTemplate,
+                                 @Value("${earthquake.api.baseurl:}") String base_url) {
+        this.restTemplate = restTemplate;
+        this.base_url = base_url;
+    }
 
     public String buildUriString(EarthquakeRequest request, String format) {
-        StringBuilder urlBuilder = new StringBuilder(BASE_URL);
+        StringBuilder urlBuilder = new StringBuilder(base_url);
         urlBuilder.append("?format=").append(format);
 
         if (request.getStarttime() != null) {

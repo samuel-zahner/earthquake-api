@@ -19,7 +19,6 @@ public class EarthquakeController {
     private final EarthquakeService earthquakeService;
 
 
-    @Autowired
     public EarthquakeController(EarthquakeService earthquakeService) {
         this.earthquakeService = earthquakeService;
     }

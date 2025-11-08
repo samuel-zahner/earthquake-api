@@ -3,17 +3,15 @@ package com.rest_api.app.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
 @Data
 @Entity
+@Table(name = "earthquake_requests")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,4 +28,7 @@ public class EarthquakeRequest {
     private String longitude;
     private String maxradiuskm;
     private String orderby;
+
+    private java.sql.Timestamp requestTime;
+    private String responseStatus;
 }
