@@ -1,6 +1,8 @@
 package com.rest_api.app.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.rest_api.app.entity.EarthquakeRequest;
@@ -12,7 +14,7 @@ public class EarthquakeRestService {
     private String base_url;
 
     public EarthquakeRestService(RestTemplate restTemplate,
-                                 @Value("${earthquake.api.baseurl:}") String base_url) {
+                                 @Value("${earthquake.base-url:}") String base_url) {
         this.restTemplate = restTemplate;
         this.base_url = base_url;
     }
@@ -46,8 +48,8 @@ public class EarthquakeRestService {
         return urlBuilder.toString();
     }
 
-    public String fetchEarthquakes(EarthquakeRequest request, String format) {
+    public ResponseEntity<String> fetchEarthquakes(EarthquakeRequest request, String format) {
         String uri = buildUriString(request, format);
-        return restTemplate.getForObject(uri, String.class);
+        return restTemplate.exchange(uri, HttpMethod.GET, null, String.class);
     }
 }

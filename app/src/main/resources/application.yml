@@ -3,11 +3,16 @@ earthquake:
   format: geojson
 
 spring:
+  profiles:
+    active: local 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/realms/myrealm
   liquibase:
     change-log: classpath:db/changelog/changelog-master.yml
     enabled: true
-  profiles:
-    active: local 
 logging:
   level:
     root: INFO

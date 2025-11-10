@@ -1,7 +1,8 @@
 package com.rest_api.app.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.rest_api.app.repository.EarthquakeEventRepository;
@@ -45,17 +46,19 @@ public class EarthquakeService {
 
     public List<EarthquakeEvent> fetchEarthquakes(EarthquakeRequest request) {
         request.setRequestTime(new Timestamp(System.currentTimeMillis()));
-        String response = earthquakeRestService.fetchEarthquakes(request, responseFormat);
-        request.setResponseStatus(response);
+        ResponseEntity<String> response = earthquakeRestService.fetchEarthquakes(request, responseFormat);
+
+        if (response == null) {
+            throw new IllegalArgumentException("Empty response from US Earthquake API");
+        }
+
+        request.setResponseStatus(response.getStatusCode().toString());
         saveRequest(request);
 
-        if (response == null || response.isEmpty()) {
-            throw new IllegalArgumentException("Empty response from Earthquake API");
-        }
-        else if (!request.getResponseStatus().equals("200")){
+        if (!request.getResponseStatus().equals(HttpStatus.OK.toString())) {
             throw new IllegalArgumentException("Error response from Earthquake API: " + request.getResponseStatus());
        }
-        JsonNode jsonRoot = mapper.readTree(response);
+        JsonNode jsonRoot = mapper.readTree(response.getBody());
 
         List<EarthquakeEvent> earthquakeEvents = new ArrayList<>();
 
