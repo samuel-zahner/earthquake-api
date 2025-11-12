@@ -1,0 +1,116 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003_earthquake_processed_table-01
+      author: samuelzahner
+      preConditions:
+        onFail: MARK_RAN
+        onError: MARK_RAN
+        preConditions:
+          - not:
+              - tableExists:
+                  tableName: processed_earthquakes
+      changes:
+        - createTable:
+            tableName: processed_earthquakes
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: earthquake_global_id
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: magnitude
+                  type: DOUBLE PRECISION
+                  constraints:
+                    nullable: true
+              - column:
+                  name: mag_type
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: place
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: event_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: latitude
+                  type: DOUBLE PRECISION
+                  constraints:
+                    nullable: true
+              - column:
+                  name: longitude
+                  type: DOUBLE PRECISION
+                  constraints:
+                    nullable: true
+              - column:
+                  name: depth
+                  type: DOUBLE PRECISION
+                  constraints:
+                    nullable: true
+              - column:
+                  name: tsunami
+                  type: BOOLEAN
+                  constraints:
+                    nullable: true
+              - column:
+                  name: alert_level
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: is_significant
+                  type: BOOLEAN
+                  constraints:
+                    nullable: true
+              - column:
+                  name: nearest_city
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: distance_to_nearest_city_km
+                  type: DOUBLE PRECISION
+                  constraints:
+                    nullable: true
+              - column:
+                  name: population_100km
+                  type: DOUBLE PRECISION
+                  constraints:
+                    nullable: true
+              - column:
+                  name: avg_age_100km
+                  type: DOUBLE PRECISION
+                  constraints:
+                    nullable: true
+              - column:
+                  name: percent_male_100km
+                  type: DOUBLE PRECISION
+                  constraints:
+                    nullable: true
+              - column:
+                  name: percent_female_100km
+                  type: DOUBLE PRECISION
+                  constraints:
+                    nullable: true
+              - column:
+                  name: processed_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+      rollback:
+        - dropTable:
+            tableName: processed_earthquakes

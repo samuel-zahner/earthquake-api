@@ -1,5 +1,7 @@
 package com.rest_api.app.entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -40,4 +42,7 @@ public class EarthquakeEvent {
     private String url;
     private String detailUrl;
     private String title;
+
+    @ManyToOne
+    private EarthquakeRequest request;
 }

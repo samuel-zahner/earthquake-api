@@ -14,7 +14,7 @@ public class EarthquakeRestService {
     private String base_url;
 
     public EarthquakeRestService(RestTemplate restTemplate,
-                                 @Value("${earthquake.base-url:}") String base_url) {
+                                 @Value("${external.api.earthquake.base-url:}") String base_url) {
         this.restTemplate = restTemplate;
         this.base_url = base_url;
     }
