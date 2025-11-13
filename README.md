@@ -10,14 +10,11 @@ Examples:
 - Histogram of magnitudes
 ![histogram](/databricks-images/image-5.png)
 
-- Scatter Plot of Avergae Population within 100km by Magnitude
+- Scatter Plot of Avergae Population within 100km2 by Magnitude
 ![avgpopscatter](/databricks-images/image-2.png)
 
 - Report of important data
 ![report](/databricks-images/image-3.png)
-
-- Percent Male/Female within 100km by if earthquake was deemed significant
-![piechart](/databricks-images/image-4.png)
 
 # How to run locally 
 
