@@ -16,7 +16,12 @@ public class PopulationService {
     }
 
     /**
-     * Fetch total population within radiusKm of a lat/lng point for a given year
+     * Fetch population demographics for given location and radius
+     * @param lat latitude
+     * @param lng longitude
+     * @param radiusKm radius in kilometers
+     * @return PopulationDemographics
+     * @throws Exception on errors
      */
     public PopulationDemographics fetchPopulation(double lat, double lng, double radiusKm) throws Exception {
         List<Map<String, Object>> pyramid = populationRestService.fetchPopulationData(lat, lng, radiusKm);
@@ -36,6 +41,11 @@ public class PopulationService {
         return populationDemographics;
     }
 
+    /**
+     * Calculate average age from population pyramid
+     * @param pyramid population pyramid data
+     * @return average age
+     */
     public double calculateAverageAge(List<Map<String, Object>> pyramid) {
         double totalPopulation = 0;
         double weightedAgeSum = 0;
@@ -57,7 +67,11 @@ public class PopulationService {
 
         return totalPopulation > 0 ? weightedAgeSum / totalPopulation : 0;
 }
-
+    /**
+     * Parse age midpoint from age range string
+     * @param ageRange age range string
+     * @return midpoint age
+     */
     private double parseAgeMidpoint(String ageRange) {
         if (ageRange.contains("and over")) {
             return 85; // assume 85+ = midpoint 85
@@ -72,7 +86,11 @@ public class PopulationService {
         }
     }
 
-    
+    /**
+     * Calculate total population from population pyramid
+     * @param pyramid population pyramid data
+     * @return total population
+     */
     public double calculateTotalPopulation(List<Map<String, Object>> pyramid) {
         double total = 0.0;
         for (Map<String, Object> ageGroup : pyramid) {
@@ -83,6 +101,11 @@ public class PopulationService {
         return total;
     }
 
+    /**
+     * Calculate gender percentages from population pyramid
+     * @param pyramid population pyramid data
+     * @return map with malePercent and femalePercent
+     */
     public Map<String, Double> calculateGenderPercentages(List<Map<String, Object>> pyramid) {
         double totalMale = 0.0;
         double totalFemale = 0.0;
@@ -102,6 +125,4 @@ public class PopulationService {
 
         return Map.of("malePercent", malePercent, "femalePercent", femalePercent);
     }
-
-
 }

@@ -5,6 +5,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,7 @@ public class EarthquakeBatchJobController {
     @PostMapping("/batch/earthquakes")
     @PreAuthorize("hasRole('user.read')")
     @Operation(summary = "Trigger Earthquake Batch Job", description = "Starts the batch job to process raw earthquake data.")
+    @Scheduled(cron="0 0 1 * * *")
     public ResponseEntity<String> runEarthquakeBatch() {
         try {
             JobParameters params = new JobParametersBuilder()

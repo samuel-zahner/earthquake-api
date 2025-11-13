@@ -9,7 +9,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -48,7 +47,14 @@ public class PopulationRestService {
         this.dataset = dataset;
     }
 
-    @SuppressWarnings("unchecked")
+    /**
+     * Fetch population data from WorldPop API
+     * @param lat latitude
+     * @param lng longitude
+     * @param radiusKm radius in kilometers
+     * @return list of population data maps
+     * @throws Exception on errors
+     */
     public List<Map<String, Object>> fetchPopulationData(double lat, double lng, double radiusKm) throws Exception {
         String geojson = buildCircleGeoJson(lat, lng, radiusKm);
         WebClient client = WebClient.builder()
@@ -87,6 +93,12 @@ public class PopulationRestService {
         return (List<Map<String, Object>>) data.get("agesexpyramid");
     }
 
+    /**
+     * Poll for WorldPop task result
+     * @param taskId task ID
+     * @return result map
+     * @throws InterruptedException on interruption
+     */
     private Map<?, ?> pollForResult(String taskId) throws InterruptedException {
         String url = pollTaskUrl + taskId;
         for (int i = 0; i < 10; i++) {
@@ -107,6 +119,13 @@ public class PopulationRestService {
     }
 
 
+    /**
+     * Build GeoJSON circle around lat/lng with given radius
+     * @param lat latitude
+     * @param lng longitude
+     * @param radiusKm radius in kilometers
+     * @return GeoJSON string
+     */
     private String buildCircleGeoJson(double lat, double lng, double radiusKm) {
         int points = 32;
         double earthRadiusKm = 6371.0;

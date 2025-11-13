@@ -19,6 +19,12 @@ public class EarthquakeRestService {
         this.base_url = base_url;
     }
 
+    /**
+     * Build URI string for earthquake request
+     * @param request earthquake request
+     * @param format response format
+     * @return URI string
+     */
     public String buildUriString(EarthquakeRequest request, String format) {
         StringBuilder urlBuilder = new StringBuilder(base_url);
         urlBuilder.append("?format=").append(format);
@@ -48,6 +54,12 @@ public class EarthquakeRestService {
         return urlBuilder.toString();
     }
 
+    /**
+     * Fetch earthquakes from external API
+     * @param request earthquake request
+     * @param format response format
+     * @return ResponseEntity with response body
+     */
     public ResponseEntity<String> fetchEarthquakes(EarthquakeRequest request, String format) {
         String uri = buildUriString(request, format);
         return restTemplate.exchange(uri, HttpMethod.GET, null, String.class);

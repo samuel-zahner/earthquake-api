@@ -24,7 +24,7 @@ public class TruncateEarthquakeEventTasklet implements Tasklet {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
 
-        // Truncate or delete, depending on your DB
+        // Truncate earthquake event table after processing
         em.createNativeQuery("TRUNCATE TABLE earthquake_event").executeUpdate();
 
         em.getTransaction().commit();
