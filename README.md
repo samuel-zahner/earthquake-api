@@ -13,10 +13,10 @@ Examples:
 - Scatter Plot of Avergae Population within 100km by Magnitude
 ![avgpopscatter](/databricks-images/image-2.png)
 
-- Heatmap of Average Age by Is_Significant
-![heatmap](/databricks-images/image-3.png)
+- Report of important data
+![report](/databricks-images/image-3.png)
 
-- Percent Male/Female within 100km by Is_Significant
+- Percent Male/Female within 100km by if earthquake was deemed significant
 ![piechart](/databricks-images/image-4.png)
 
 # How to run locally 
