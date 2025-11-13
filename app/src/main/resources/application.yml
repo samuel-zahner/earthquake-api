@@ -1,0 +1,30 @@
+external:
+  api:
+    earthquake:
+      base-url: https://earthquake.usgs.gov/fdsnws/event/1/query
+      format: geojson
+    population:
+      base-url: https://api.worldpop.org/v1/services/stats
+      poll-task-url: https://api.worldpop.org/v1/tasks/
+      year: 2020
+      dataset: wpgpas
+
+spring:
+  profiles:
+    active: local
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/realms/myrealm
+  batch:
+    job:
+      enabled: false
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.yml
+    enabled: true
+logging:
+  level:
+    root: INFO
+    liquibase: INFO
+

@@ -1,0 +1,5 @@
+databaseChangeLog:
+  # include every file under db/changelogs
+  - includeAll:
+      path: changelogs
+      relativeToChangelogFile: true

@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    vault:
+      uri: http://localhost:8200
+      token: {VAULT_TOKEN:} #replace with your vault token or set as environment variable
+      authentication: token
+      kv:
+        backend: secret
+        default-context: earthquakes/local

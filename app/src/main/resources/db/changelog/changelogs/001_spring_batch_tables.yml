@@ -1,0 +1,313 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001_spring_batch_tables-01
+      author: samuelzahner
+      preConditions:
+        onFail: MARK_RAN
+        onError: MARK_RAN
+        preConditions:
+          - not:
+              - tableExists:
+                  tableName: BATCH_JOB_INSTANCE
+      changes:
+        - createTable:
+            tableName: BATCH_JOB_INSTANCE
+            columns:
+              - column:
+                  name: JOB_INSTANCE_ID
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: VERSION
+                  type: BIGINT
+              - column:
+                  name: JOB_NAME
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: JOB_KEY
+                  type: VARCHAR(32)
+                  constraints:
+                    nullable: false
+      rollback:
+        - dropTable:
+            tableName: BATCH_JOB_INSTANCE
+
+  - changeSet:
+      id: 001_spring_batch_tables-02
+      author: samuelzahner
+      preConditions:
+        onFail: MARK_RAN
+        onError: MARK_RAN
+        preConditions:
+          - not:
+              - tableExists:
+                  tableName: BATCH_JOB_EXECUTION
+      changes:
+        - createTable:
+            tableName: BATCH_JOB_EXECUTION
+            columns:
+              - column:
+                  name: JOB_EXECUTION_ID
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: VERSION
+                  type: BIGINT
+              - column:
+                  name: JOB_INSTANCE_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CREATE_TIME
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: START_TIME
+                  type: TIMESTAMP
+              - column:
+                  name: END_TIME
+                  type: TIMESTAMP
+              - column:
+                  name: STATUS
+                  type: VARCHAR(10)
+              - column:
+                  name: EXIT_CODE
+                  type: VARCHAR(20)
+              - column:
+                  name: EXIT_MESSAGE
+                  type: VARCHAR(2500)
+              - column:
+                  name: LAST_UPDATED
+                  type: TIMESTAMP
+        - addForeignKeyConstraint:
+            baseTableName: BATCH_JOB_EXECUTION
+            baseColumnNames: JOB_INSTANCE_ID
+            referencedTableName: BATCH_JOB_INSTANCE
+            referencedColumnNames: JOB_INSTANCE_ID
+            constraintName: JOB_INSTANCE_EXECUTION_FK
+      rollback:
+        - dropTable:
+            tableName: BATCH_JOB_EXECUTION
+
+  - changeSet:
+      id: 001_spring_batch_tables-03
+      author: samuelzahner
+      preConditions:
+        onFail: MARK_RAN
+        onError: MARK_RAN
+        preConditions:
+          - not:
+              - tableExists:
+                  tableName: BATCH_JOB_EXECUTION_PARAMS
+      changes:
+        - createTable:
+            tableName: BATCH_JOB_EXECUTION_PARAMS
+            columns:
+              - column:
+                  name: JOB_EXECUTION_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: PARAMETER_NAME
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: PARAMETER_TYPE
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: PARAMETER_VALUE
+                  type: VARCHAR(2500)
+              - column:
+                  name: IDENTIFYING
+                  type: CHAR(1)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: BATCH_JOB_EXECUTION_PARAMS
+            baseColumnNames: JOB_EXECUTION_ID
+            referencedTableName: BATCH_JOB_EXECUTION
+            referencedColumnNames: JOB_EXECUTION_ID
+            constraintName: JOB_EXEC_PARAMS_FK
+      rollback:
+        - dropTable:
+            tableName: BATCH_JOB_EXECUTION_PARAMS
+
+  - changeSet:
+      id: 001_spring_batch_tables-04
+      author: samuelzahner
+      preConditions:
+        onFail: MARK_RAN
+        onError: MARK_RAN
+        preConditions:
+          - not:
+              - tableExists:
+                  tableName: BATCH_STEP_EXECUTION
+      changes:
+        - createTable:
+            tableName: BATCH_STEP_EXECUTION
+            columns:
+              - column:
+                  name: STEP_EXECUTION_ID
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: VERSION
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: STEP_NAME
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: JOB_EXECUTION_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CREATE_TIME
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: START_TIME
+                  type: TIMESTAMP
+              - column:
+                  name: END_TIME
+                  type: TIMESTAMP
+              - column:
+                  name: STATUS
+                  type: VARCHAR(10)
+              - column:
+                  name: COMMIT_COUNT
+                  type: BIGINT
+              - column:
+                  name: READ_COUNT
+                  type: BIGINT
+              - column:
+                  name: FILTER_COUNT
+                  type: BIGINT
+              - column:
+                  name: WRITE_COUNT
+                  type: BIGINT
+              - column:
+                  name: READ_SKIP_COUNT
+                  type: BIGINT
+              - column:
+                  name: WRITE_SKIP_COUNT
+                  type: BIGINT
+              - column:
+                  name: PROCESS_SKIP_COUNT
+                  type: BIGINT
+              - column:
+                  name: ROLLBACK_COUNT
+                  type: BIGINT
+              - column:
+                  name: EXIT_CODE
+                  type: VARCHAR(20)
+              - column:
+                  name: EXIT_MESSAGE
+                  type: VARCHAR(2500)
+              - column:
+                  name: LAST_UPDATED
+                  type: TIMESTAMP
+        - addForeignKeyConstraint:
+            baseTableName: BATCH_STEP_EXECUTION
+            baseColumnNames: JOB_EXECUTION_ID
+            referencedTableName: BATCH_JOB_EXECUTION
+            referencedColumnNames: JOB_EXECUTION_ID
+            constraintName: JOB_EXECUTION_STEP_FK
+      rollback:
+        - dropTable:
+            tableName: BATCH_STEP_EXECUTION
+
+  - changeSet:
+      id: 001_spring_batch_tables-05
+      author: samuelzahner
+      preConditions:
+        onFail: MARK_RAN
+        onError: MARK_RAN
+        preConditions:
+          - not:
+              - tableExists:
+                  tableName: BATCH_JOB_EXECUTION_CONTEXT
+      changes:
+        - createTable:
+            tableName: BATCH_JOB_EXECUTION_CONTEXT
+            columns:
+              - column:
+                  name: JOB_EXECUTION_ID
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: SHORT_CONTEXT
+                  type: VARCHAR(2500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: SERIALIZED_CONTEXT
+                  type: CLOB
+        - addForeignKeyConstraint:
+            baseTableName: BATCH_JOB_EXECUTION_CONTEXT
+            baseColumnNames: JOB_EXECUTION_ID
+            referencedTableName: BATCH_JOB_EXECUTION
+            referencedColumnNames: JOB_EXECUTION_ID
+            constraintName: JOB_EXEC_CTX_FK
+      rollback:
+        - dropTable:
+            tableName: BATCH_JOB_EXECUTION_CONTEXT
+
+  - changeSet:
+      id: 001_spring_batch_tables-06
+      author: samuelzahner
+      preConditions:
+        onFail: MARK_RAN
+        onError: MARK_RAN
+        preConditions:
+          - not:
+              - tableExists:
+                  tableName: BATCH_STEP_EXECUTION_CONTEXT
+      changes:
+        - createTable:
+            tableName: BATCH_STEP_EXECUTION_CONTEXT
+            columns:
+              - column:
+                  name: STEP_EXECUTION_ID
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: SHORT_CONTEXT
+                  type: VARCHAR(2500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: SERIALIZED_CONTEXT
+                  type: CLOB
+        - addForeignKeyConstraint:
+            baseTableName: BATCH_STEP_EXECUTION_CONTEXT
+            baseColumnNames: STEP_EXECUTION_ID
+            referencedTableName: BATCH_STEP_EXECUTION
+            referencedColumnNames: STEP_EXECUTION_ID
+            constraintName: STEP_EXEC_CTX_FK
+      rollback:
+        - dropTable:
+            tableName: BATCH_STEP_EXECUTION_CONTEXT
