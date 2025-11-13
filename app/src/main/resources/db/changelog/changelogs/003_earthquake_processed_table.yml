@@ -24,7 +24,6 @@ databaseChangeLog:
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
-                    unique: true
               - column:
                   name: magnitude
                   type: DOUBLE PRECISION
@@ -114,3 +113,13 @@ databaseChangeLog:
       rollback:
         - dropTable:
             tableName: processed_earthquakes
+  - changeSet:
+      id: 003_earthquake_processed_table-02
+      author: samuelzahner
+      changes:
+        - createIndex:
+            tableName: processed_earthquakes
+            indexName: idx_earthquake_global_id
+            columns:
+              - column:
+                  name: earthquake_global_id

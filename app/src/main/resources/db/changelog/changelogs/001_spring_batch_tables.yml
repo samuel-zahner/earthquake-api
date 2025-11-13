@@ -15,7 +15,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: JOB_INSTANCE_ID
-                  type: BIGSERIAL
+                  type: BIGINT
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -52,7 +52,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: JOB_EXECUTION_ID
-                  type: BIGSERIAL
+                  type: BIGINT
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -160,7 +160,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: STEP_EXECUTION_ID
-                  type: BIGSERIAL
+                  type: BIGINT
                   constraints:
                     primaryKey: true
                     nullable: false

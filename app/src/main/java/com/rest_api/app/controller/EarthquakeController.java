@@ -1,19 +1,17 @@
 package com.rest_api.app.controller;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.rest_api.app.entity.EarthquakeRequest;
 import com.rest_api.app.service.EarthquakeService;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.rest_api.app.entity.EarthquakeEvent;
 
 
 @RestController
@@ -29,7 +27,7 @@ public class EarthquakeController {
     @GetMapping("earthquakes")
     @PreAuthorize("hasRole('user.read')")
     @Scheduled(cron = "0 0 0 * * *")
-    public void stageRawEarthquakeEvents(){
+    public void stageRawEarthquakeEvents() throws JsonMappingException, JsonProcessingException{
 
         LocalDate endDate = LocalDate.now();
         LocalDate startDate = endDate.minusDays(1);

@@ -10,10 +10,12 @@ import com.rest_api.app.repository.EarthquakeRequestRepository;
 import com.rest_api.app.util.JsonResponseEnum;
 
 import lombok.extern.slf4j.Slf4j;
-import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.ObjectMapper;
 
 import com.rest_api.app.entity.EarthquakeRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rest_api.app.entity.EarthquakeEvent;
 
 import java.sql.Timestamp;
@@ -43,11 +45,11 @@ public class EarthquakeService {
         this.earthquakeEventRepository = earthquakeEventRepository;
     }
 
-    @Value("${external.api.earthquake.format}")
+    @Value("${external.api.earthquake.format:geojson}")
     private String responseFormat;
     
 
-    public List<EarthquakeEvent> fetchEarthquakes(EarthquakeRequest request) {
+    public List<EarthquakeEvent> fetchEarthquakes(EarthquakeRequest request) throws JsonMappingException, JsonProcessingException {
         request.setRequestTime(new Timestamp(System.currentTimeMillis()));
         ResponseEntity<String> response = earthquakeRestService.fetchEarthquakes(request, responseFormat);
 
@@ -65,15 +67,16 @@ public class EarthquakeService {
 
         List<EarthquakeEvent> earthquakeEvents = new ArrayList<>();
 
-        if (jsonRoot.path("type").asString().equals(JsonResponseEnum.FEATURE_COLLECTION.getValue())) {
+        if (jsonRoot.path("type").asText().equals(JsonResponseEnum.FEATURE_COLLECTION.getValue())) {
             try {
                 earthquakeEvents.addAll(parseMultipleEarthquakeEvents(jsonRoot));
             } catch (Exception e) {
                 log.error("Error parsing earthquake events", e);
             }
         } 
-        else if (jsonRoot.path("type").asString().equals(JsonResponseEnum.FEATURE.getValue())) {
+        else if (jsonRoot.path("type").asText().equals(JsonResponseEnum.FEATURE.getValue())) {
             EarthquakeEvent event = mapFeatureNodeToEarthquakeEvent(jsonRoot);
+            event.setRequest(request);
             earthquakeEvents.add(event);
         }
         else {
@@ -110,25 +113,25 @@ public class EarthquakeService {
         JsonNode coords = feature.path("geometry").path("coordinates");
 
         return EarthquakeEvent.builder()
-                .earthquakeGlobalId(feature.path("id").asString())
+                .earthquakeGlobalId(feature.path("id").asText())
                 .magnitude(props.path("mag").isMissingNode() ? null : props.path("mag").asDouble())
-                .magType(props.path("magType").asString(null))
-                .place(props.path("place").asString(null))
+                .magType(props.path("magType").asText(null))
+                .place(props.path("place").asText(null))
                 .time(convertToTimestamp(props.path("time").asLong()))
                 .updated(convertToTimestamp(props.path("updated").asLong()))
                 .tsunami(props.path("tsunami").asInt(0) == 1)
-                .status(props.path("status").asString(null))
-                .alert(props.path("alert").asString(null))
+                .status(props.path("status").asText(null))
+                .alert(props.path("alert").asText(null))
                 .significance(props.path("sig").asInt())
-                .network(props.path("net").asString(null))
-                .code(props.path("code").asString(null))
-                .types(props.path("types").asString(null))
+                .network(props.path("net").asText(null))
+                .code(props.path("code").asText(null))
+                .types(props.path("types").asText(null))
                 .longitude(coords.isArray() && coords.size() > 0 ? coords.get(0).asDouble() : null)
                 .latitude(coords.isArray() && coords.size() > 1 ? coords.get(1).asDouble() : null)
                 .depth(coords.isArray() && coords.size() > 2 ? coords.get(2).asDouble() : null)
-                .url(props.path("url").asString(null))
-                .detailUrl(props.path("detail").asString(null))
-                .title(props.path("title").asString(null))
+                .url(props.path("url").asText(null))
+                .detailUrl(props.path("detail").asText(null))
+                .title(props.path("title").asText(null))
                 .build();
     }
 

@@ -19,7 +19,7 @@ public class ProcessedEarthquake {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "earthquake_global_id", nullable = false, unique = true)
+    @Column(name = "earthquake_global_id", nullable = false)
     private String earthquakeGlobalId;
 
     @Column

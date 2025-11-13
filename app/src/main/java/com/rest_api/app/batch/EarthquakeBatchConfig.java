@@ -2,9 +2,14 @@ package com.rest_api.app.batch;
 
 import java.time.LocalDateTime;
 
-import org.springframework.batch.infrastructure.item.ItemProcessor;
-import org.springframework.batch.infrastructure.item.ItemReader;
-import org.springframework.batch.infrastructure.item.database.builder.JpaPagingItemReaderBuilder;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.Step;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.database.JpaItemWriter;
+import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,7 +17,6 @@ import com.rest_api.app.entity.EarthquakeEvent;
 import com.rest_api.app.entity.PopulationDemographics;
 import com.rest_api.app.entity.ProcessedEarthquake;
 import com.rest_api.app.service.EarthquakeService;
-import com.rest_api.app.service.PopulationRestService;
 import com.rest_api.app.service.PopulationService;
 
 import jakarta.persistence.EntityManagerFactory;
@@ -77,5 +81,13 @@ public class EarthquakeBatchConfig {
         return processed;
         };
     }
+
+    @Bean
+    public ItemWriter<ProcessedEarthquake> processedEarthquakeWriter(EntityManagerFactory emf) {
+        JpaItemWriter<ProcessedEarthquake> writer = new JpaItemWriter<>();
+        writer.setEntityManagerFactory(emf);
+        return writer;
+    }
+
 }
 

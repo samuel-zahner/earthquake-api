@@ -7,7 +7,7 @@ external:
       base-url: https://api.worldpop.org/v1/services/stats
       poll-task-url: https://api.worldpop.org/v1/tasks/
       year: 2020
-      dataset: wgpop
+      dataset: wpgpas
 
 spring:
   profiles:
