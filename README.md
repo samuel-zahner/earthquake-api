@@ -1,7 +1,7 @@
 # Earthquake Processor API
 
 # Overview
-Earthquake-processor-api pulls data from the UGS Earthquake public api, and stages it to a staging table. It then kicks off a spring batch job to process and enrich this raw data with nearby population information from WorldPop public api. Databricks is then used for data analytics and visualizations. 
+Earthquake-processor-api pulls data from the USGS Earthquake public api, and stages it to a staging table. It then kicks off a spring batch job to process and enrich this raw data with nearby population information from WorldPop public api. Databricks is then used for data analytics and visualizations. 
 
 Examples: 
 - Map of Earthquakes
