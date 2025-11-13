@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004_spring_batch_sequences-01
+      author: samuelzahner
+      changes:
+        - createSequence:
+            sequenceName: BATCH_JOB_SEQ
+            startValue: 1
+            incrementBy: 1
+
+        - createSequence:
+            sequenceName: BATCH_JOB_EXECUTION_SEQ
+            startValue: 1
+            incrementBy: 1
+
+        - createSequence:
+            sequenceName: BATCH_STEP_EXECUTION_SEQ
+            startValue: 1
+            incrementBy: 1
+
+        - createSequence:
+            sequenceName: BATCH_JOB_EXECUTION_PARAMS_SEQ
+            startValue: 1
+            incrementBy: 1

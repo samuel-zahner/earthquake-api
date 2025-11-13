@@ -1,0 +1,10 @@
+earthquake:
+  base-url: https://earthquake.usgs.gov/fdsnws/event/1/query
+  format: geojson
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: none
