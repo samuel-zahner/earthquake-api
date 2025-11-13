@@ -5,7 +5,7 @@
             "name": "Spring Boot-AppApplication<app>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "mainClass": "com.rest_api.app.AppApplication",
+            "mainClass": "com.earthquake_processor_api.app.AppApplication",
             "projectName": "app",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
