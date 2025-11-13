@@ -248,28 +248,28 @@ public class EarthquakeService {
 
         if (magnitude == null) return false;
 
-        // 1️⃣ Major earthquakes (6.0+) are always significant
+        //Major earthquakes (6.0+) are always significant
         if (magnitude >= 6.0) {
             return true;
         }
 
-        // 2️⃣ Moderate quakes (5.0–6.0) near cities can be significant
+        //Moderate quakes (5.0–6.0) near cities can be significant
         if (magnitude >= 5.0 && distanceToNearestCityKm != null && distanceToNearestCityKm <= 30) {
             return true;
         }
 
-        // 3️⃣ Smaller quakes (<5.0) — only if extremely close and population-dense
+        //Smaller quakes (<5.0) — only if extremely close and population-dense
         if (magnitude >= 4.0 && distanceToNearestCityKm != null && distanceToNearestCityKm <= 10
                 && population100km != null && population100km >= 1_000_000) {
             return true;
         }
 
-        // 4️⃣ Tsunami flag is always significant
+        //Tsunami flag is always significant
         if (Boolean.TRUE.equals(tsunami)) {
             return true;
         }
 
-        // 5️⃣ USGS alert levels
+        //USGS alert levels
         if (alertLevel != null) {
             List<String> significantAlerts = Arrays.asList("yellow", "orange", "red");
             if (significantAlerts.contains(alertLevel.toLowerCase())) {
@@ -277,7 +277,7 @@ public class EarthquakeService {
             }
         }
 
-        // 6️⃣ Extremely dense population exposure
+        //Extremely dense population exposure
         if (population100km != null && population100km >= 5_000_000) {
             return true;
         }
